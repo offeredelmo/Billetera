@@ -10,8 +10,6 @@ import { NodemailerModule } from 'src/nodemailer/nodemailer.module';
   imports:[
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
     }),
     UsersModule,
     NodemailerModule

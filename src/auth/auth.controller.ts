@@ -41,7 +41,7 @@ export class AuthController {
 
   @Get()
   @UseGuards(AccessTokenGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.USER)
   async test() {
     return "test"
   }

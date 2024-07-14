@@ -3,10 +3,14 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constant/jwt.constant';
 import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
 
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+  constructor(
+    private jwtService: JwtService, 
+    private readonly configService: ConfigService
+  ) {}
 
 
 
@@ -16,15 +20,20 @@ export class AccessTokenGuard implements CanActivate {
     
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+
     if (!token) {
+      console.log("sin token")
       throw new UnauthorizedException();
+      
     }
     try {
+
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstants.secret,
+        secret: this.configService.get<string>('access_token'),
       });
       request['user'] = payload;
     } catch {
+      console.log("ta mal el token")
       throw new UnauthorizedException();
     }
     return true;
