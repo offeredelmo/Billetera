@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -9,6 +9,7 @@ import { AccessTokenGuard } from './guard/accessToken.guard';
 import { IsEmail } from 'class-validator';
 import { EmailValidationPipe } from './pipes/email_validation.pipe';
 import { RefreshTokenGuard } from './guard/refreshToken.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 export class AuthController {
@@ -19,8 +20,9 @@ export class AuthController {
   }
 
   @Post("register")
-  async register(@Body() registerDto: RegisterDto) {
-    return await this.authService.register(registerDto)
+  @UseInterceptors(FileInterceptor('file'))
+  async register(@Body() registerDto: RegisterDto, @UploadedFile() file:Express.Multer.File) {
+    return await this.authService.register(registerDto, file)
   }
 
   @Post("recovery_password")

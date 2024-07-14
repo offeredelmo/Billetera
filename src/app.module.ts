@@ -10,6 +10,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { GastosModule } from './gastos/gastos.module';
 import { BilleteraModule } from './billetera/billetera.module';
 import { HistorialIngresosModule } from './historial_ingresos/historial_ingresos.module';
+import { SpacesModule } from './spaces/spaces.module';
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { HistorialIngresosModule } from './historial_ingresos/historial_ingresos
     NodemailerModule,
     GastosModule,
     BilleteraModule,
-    HistorialIngresosModule
+    HistorialIngresosModule,
+    SpacesModule
   ],
   controllers: [],
   providers: [AuthService],

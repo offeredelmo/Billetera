@@ -39,8 +39,8 @@ export class AuthService {
     }
   }
 
-  async register(registerDto: RegisterDto) {
-    return await this.usersService.create(registerDto)
+  async register(registerDto: RegisterDto, file: Express.Multer.File) {
+    return await this.usersService.create(registerDto, file)
   }
 
   //genera un codigo de 7 digitos que manda al correo para validarlo despues al recuperar la contraseña

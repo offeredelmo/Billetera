@@ -6,19 +6,30 @@ import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt'
 import { UserRole } from './enums/rol.enum';
+import { SpacesService } from 'src/spaces/spaces.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private readonly spacesService:SpacesService
+  ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto, file?: Express.Multer.File) {
     try {
       const newUser = new this.userModel(createUserDto)
       newUser.password = await bcrypt.hash(createUserDto.password, 10)
       newUser.roles.push(UserRole.USER)
+
+      if (file) {
+        const img_url = await this.spacesService.uploadFile(file)
+        newUser.img_url = img_url
+      }
+
       await newUser.save()
       return newUser;
     } catch (error) {
+      console.log(error)
       if (error.code == 11000) {
         throw new BadRequestException(`El correo ${createUserDto.email} ya esta registrado`)
       }
@@ -77,4 +88,9 @@ export class UsersService {
       { new: true }
     );
   }
+
+
+
+
+  
 }
