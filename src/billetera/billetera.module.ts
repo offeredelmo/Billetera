@@ -14,5 +14,6 @@ import { HistorialIngresosModule } from 'src/historial_ingresos/historial_ingres
   ],
   controllers: [BilleteraController],
   providers: [BilleteraService],
+  exports: [BilleteraService]
 })
 export class BilleteraModule {}

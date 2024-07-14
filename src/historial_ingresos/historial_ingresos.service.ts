@@ -22,11 +22,11 @@ export class HistorialIngresosService {
       [
         {
           '$match': {
-            'user_id': '668ee469f79ceefb077d0392', 
-            'billetera_id': '668f3ce30386b7936756d1ce', 
+            'user_id': datosParaListarIngresos.user_id, 
+            'billetera_id': datosParaListarIngresos.billetera_id, 
             'createdAt': {
-              '$gte': new Date('2024-02-01T00:00:00Z'), 
-              '$lte': new Date('2024-07-29T23:59:59Z')
+              '$gte': new Date(datosParaListarIngresos.fecha_inicio), 
+              '$lte': new Date(datosParaListarIngresos.fecha_fin)
             },
             'moneda': datosParaListarIngresos.moneda
           }

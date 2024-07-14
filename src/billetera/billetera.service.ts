@@ -53,23 +53,28 @@ export class BilleteraService {
     return billeteraActualizada
   }
 
+
+  async buscarPorId(_id) {
+    const billetera = await this.billeteraModel.findById(_id)
+    if (!billetera) {
+      throw new NotFoundException(`la billetera con el id ${_id} no fue encontrada`)
+    }
+    return billetera
+  }
+
+  //mover al servicio de ingresos
   async agregarIngresos(agregarCreditoBilleteraDto: AgregarCreditoBilleteraDto) {
     const billetera = await this.billeteraModel.findById(agregarCreditoBilleteraDto.billeteraId);
     
     if (!billetera) {
       throw new NotFoundException('Billetera no encontrada');
     }
-  
-    // const monedaIndex = billetera.monedas.findIndex(moneda => 
-    //   new Types.ObjectId(moneda._id).equals(agregarCreditoBilletera.monedaId)
-    // );
 
     const monedaIndex = billetera.monedas.findIndex(moneda => moneda.nombre == agregarCreditoBilleteraDto.nombreMoneda)
     
     if (monedaIndex === -1) {
       throw new NotFoundException('Moneda no encontrada en la billetera');
     }
-  
     billetera.monedas[monedaIndex].cantidad += agregarCreditoBilleteraDto.credito;
   
     await billetera.save();

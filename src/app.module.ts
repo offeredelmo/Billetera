@@ -11,6 +11,7 @@ import { GastosModule } from './gastos/gastos.module';
 import { BilleteraModule } from './billetera/billetera.module';
 import { HistorialIngresosModule } from './historial_ingresos/historial_ingresos.module';
 import { SpacesModule } from './spaces/spaces.module';
+import { DeudasModule } from './deudas/deudas.module';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { SpacesModule } from './spaces/spaces.module';
     GastosModule,
     BilleteraModule,
     HistorialIngresosModule,
-    SpacesModule
+    SpacesModule,
+    DeudasModule
   ],
   controllers: [],
   providers: [AuthService],
